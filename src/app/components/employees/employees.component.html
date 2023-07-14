@@ -1,0 +1,88 @@
+<style>
+    .emp{
+        border-bottom: 1px solid rgb(197, 196, 196);
+        height: 50px;
+    }
+</style>
+<div class="container p-5 bg-light" *ngIf="viewEmployees && !newForm"> 
+    <div >
+        <button class="btn btn-dark" (click)="listEmp()">Add New Employee</button>
+    </div><br>
+    <table  style=" width: 100%;">
+        <tr style="border-top: 1px solid rgb(110, 110, 110);border-bottom: 1px solid rgb(110, 110, 110); height: 50px;">
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let emp of employees" style="border-bottom: 1px solid rgb(197, 196, 196); height: 50px;">
+            <td>{{emp.id}}</td>
+            <td>{{emp.first_name}}</td>
+            <td>{{emp.last_name}}</td>
+            <td>{{emp.email}}</td>
+            <td><button class="btn btn-dark" (click)="allDetails(emp.id)">View Details</button></td>
+        </tr>
+    </table>
+</div>
+
+<div class="container p-5 bg-light" *ngIf="!viewEmployees && !updateForm">
+    <div class="card">
+        <div class="card-header bg-white">
+            Details of <b>{{emp.first_name}} {{emp.last_name}}</b>
+        </div>
+        <div class="card-body">
+            <table style="width: 95%; margin-bottom: 20px;">
+                <tr class="emp">
+                    <td style="width: 50%; font-weight: bold;" >Employee Id</td>
+                    <td style="width: 50%; ">{{emp.id}}</td>
+                </tr>
+                <tr class="emp">
+                    <td style="width: 50%; font-weight: bold;">First Name</td>
+                    <td style="width: 50%; ">{{emp.first_name}}</td>
+                </tr>
+                <tr class="emp">
+                    <td style="width: 50%; font-weight: bold;">Last Name</td>
+                    <td style="width: 50%; ">{{emp.last_name}}</td>
+                </tr>
+                <tr class="emp">
+                    <td style="width: 50%; font-weight: bold;">Email</td>
+                    <td style="width: 50%; ">{{emp.email}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="card-footer bg-white">
+            <button class="btn btn-info ms-3" (click)="employeeList()">Employee List</button>
+            <button class="btn btn-danger ms-3" (click)="deleteEmployee(emp.id)">Delete</button>
+            <button class="btn btn-secondary ms-3" (click)="updateEmp()">Update</button>
+        </div>
+    </div>
+</div>
+
+<div class="container p-5 bg-light" *ngIf="newForm || updateForm" >
+    <h1 *ngIf="newForm">New Employee Form</h1>
+    <h1 *ngIf="updateForm">Update Form</h1>
+    <form class="form col-6 mt-3" #newEmp="ngForm" (ngSubmit)="Employee(newForm)" >
+        <div class="from-group">
+            <label for="fname" class="form-label">First Name</label>
+            <input type="text" class="form-control" [(ngModel)]="newEmployee.first_name" name="fname" required *ngIf="newForm">
+            <input type="text" class="form-control" [(ngModel)]="emp.first_name" name="fname" required *ngIf="updateForm">
+        </div>
+        <div class="from-group">
+            <label for="fname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" [(ngModel)]="newEmployee.last_name" name="lname" required *ngIf="newForm">
+            <input type="text" class="form-control" [(ngModel)]="emp.last_name" name="lname" required *ngIf="updateForm">
+        </div>
+        <div class="from-group">
+            <label for="fname" class="form-label">Email</label>
+            <input type="text" class="form-control" [(ngModel)]="newEmployee.email" name="mail" required *ngIf="newForm">
+            <input type="text" class="form-control" [(ngModel)]="emp.email" name="mail" required *ngIf="updateForm">
+        </div>
+        <div>
+            <input type="submit" value="Submit Form" class="btn btn-info m-3" [disabled]="newEmp.invalid" *ngIf="newForm"> 
+            <input type="submit" value="Update Details" class="btn btn-info m-3"  *ngIf="updateForm"> 
+            <button class="btn btn-secondary" (click)="listEmp()" *ngIf="newForm">Back</button>
+            <button class="btn btn-secondary" (click)="updateEmp()" *ngIf="updateForm">Back</button>
+        </div>
+    </form>
+</div>
